@@ -15,7 +15,7 @@ for each cloth we want to get its:
 """
 
 # maybe append to an excel spread sheet?
-items = []
+# items = []
 isRun = True
 i = 1
 
@@ -33,11 +33,11 @@ while isRun:
         designer = findChildElem(cloth, 'h2', 'a')
         clothTitle = findChildElem(cloth, 'p', 'a')
         price = cloth.find('span', {'class':'price'})
-        # We do not need to check all of the properties
         if designer is None:
            isRun = False
            i = 0
            break
-        print(f"Designer: {designer['title']}, {clothTitle['title']}, price:{price.string}")
-        items.append(f"Designer: {designer['title']}, {clothTitle['title']}, price:{price.string}")
+        print(f"Designer: {designer['title']}\n{clothTitle['title']}\nprice:{price.string}\n{img['data-src']}")
+        print("------------------------------------------------------------")
+        # items.append(f"Designer: {designer['title']}, {clothTitle['title']}, price:{price.string}")
     i += 1    
