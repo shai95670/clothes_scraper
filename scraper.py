@@ -19,8 +19,12 @@ for each cloth we want to get its:
 isRun = True
 i = 1
 
-def findChildElem(rootElem, parentTag, childTag):
+def findChildElemByTitle(rootElem, parentTag, childTag):
     return rootElem.find(parentTag).find(childTag, {'title': re.compile('.*')}, recursive=False)
+
+# classDef can be a list of str's or str
+def findElemByClass(rootElem, tag, classDef):
+    return cloth.find(tag, {'class': classDef})
          
 
 while isRun:
@@ -29,10 +33,10 @@ while isRun:
     clothes = soup.findAll('div', {'class':'woman_item clearfix'})
 
     for cloth in clothes:
-        img = cloth.find('img', {'class': ['lazy-img', 'default', 'processed']})
-        designer = findChildElem(cloth, 'h2', 'a')
-        clothTitle = findChildElem(cloth, 'p', 'a')
-        price = cloth.find('span', {'class':'price'})
+        img = findElemByClass(cloth, 'img', ['lazy-img', 'default', 'processed'])
+        designer = findChildElemByTitle(cloth, 'h2', 'a')
+        clothTitle = findChildElemByTitle(cloth, 'p', 'a')
+        price = findElemByClass(cloth, 'span', 'price')
         if designer is None:
            isRun = False
            i = 0
