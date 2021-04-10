@@ -14,14 +14,16 @@ for each cloth we want to get its:
   - image    
 """
 
+# maybe append to an excel spread sheet?
 items = []
+isRun = True
+i = 1
 
 def findChildElem(rootElem, parentTag, childTag):
     return rootElem.find(parentTag).find(childTag, {'title': re.compile('.*')}, recursive=False)
          
 
-
-for i in range(1, 10):
+while isRun:
     html = requests.get(f"https://www.factory54.co.il/men/clothing?p={i}").text
     soup = BeautifulSoup(html, 'html.parser')
     clothes = soup.findAll('div', {'class':'woman_item clearfix'})
@@ -31,10 +33,11 @@ for i in range(1, 10):
         designer = findChildElem(cloth, 'h2', 'a')
         clothTitle = findChildElem(cloth, 'p', 'a')
         price = cloth.find('span', {'class':'price'})
-        # print(price.string)
-        #print(clothTitle['title'])
-        # print(designer['title'])
-        # print(img['data-src'])
+        # We do not need to check all of the properties
+        if designer is None:
+           isRun = False
+           i = 0
+           break
+        print(f"Designer: {designer['title']}, {clothTitle['title']}, price:{price.string}")
         items.append(f"Designer: {designer['title']}, {clothTitle['title']}, price:{price.string}")
-
-print(len(items))        
+    i += 1    
